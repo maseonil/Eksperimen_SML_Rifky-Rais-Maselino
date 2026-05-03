@@ -1,0 +1,42 @@
+name: Automated Preprocessing Workflow
+
+on:
+  push:
+    branches: [ Eksperimen_SML_Rifky-Rais-Maselino ]
+  pull_request:
+    branches: [ Eksperimen_SML_Rifky-Rais-Maselino ]
+
+jobs:
+  preprocess:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12.7'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas numpy scikit-learn
+
+    - name: Run Automate Script
+      run: |
+        python preprocessing/automate_rifky_rais_maselino.py
+
+    - name: Commit and Push Updated Dataset
+      run: |
+        git config --global user.name ${{ secrets.USERNAME }}
+        git config --global user.email ${{ secrets.EMAIL }}
+        
+        git add preprocessing/gym_dataset_preprocessing.csv
+        
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update gym_dataset_preprocessed.csv" && git push)
+
+        git push origin Eksperimen_SML_Rifky-Rais-Maselino --force
