@@ -2,9 +2,9 @@ name: Automated Preprocessing Workflow
 
 on:
   push:
-    branches: [ Eksperimen_SML_Rifky-Rais-Maselino ]
+    branches: [ main ]
   pull_request:
-    branches: [ Eksperimen_SML_Rifky-Rais-Maselino ]
+    branches: [ main ]
 
 jobs:
   preprocess:
@@ -22,7 +22,6 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pandas numpy scikit-learn
 
     - name: Run Automate Script
       run: |
@@ -37,4 +36,4 @@ jobs:
         
         git diff --quiet && git diff --staged --quiet || (git commit -m "Update gym_dataset_preprocessed.csv" && git push)
 
-        git push origin Eksperimen_SML_Rifky-Rais-Maselino --force
+        git push origin main --force
