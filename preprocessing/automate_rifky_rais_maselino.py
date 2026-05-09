@@ -25,7 +25,7 @@ def run_preprocessing():
             df[col] = df[col].clip(q1 - 1.5 * iqr, q3 + 1.5 * iqr)
 
     le = LabelEncoder()
-    for col in ["Gender", "Workout_Type", "Experience_Level"]:
+    for col in ["Gender", "Workout_Type"]:
         if col in df.columns:
             df[col] = le.fit_transform(df[col])
 
